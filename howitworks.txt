@@ -1,0 +1,9 @@
+Node demo server overview
+
+- Server: Plain `http.createServer` listening on port 3000; logs startup URL.
+- CORS: Allows origin http://dboxmusic.local and methods GET/POST/OPTIONS; replies 204 for preflight OPTIONS.
+- Static files: Requests starting with /static read the matching file from the local path (relative to the project root) and return it as text/html; missing files yield 404 text.
+- /endpoint1: Returns 8 random track objects selected from a built-in `tracks` array.
+- /endpoint2: Placeholder that currently responds with JSON `{ message: 'Endpoint 2 response' }`.
+- Default: Any other path returns plain text "Welcome to the server".
+- Data: `tracks` is a hardcoded list of classic tracks with artist/title/album/year used by /endpoint1.
