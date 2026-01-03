@@ -27,7 +27,7 @@ const server = http.createServer((req, res) => {
     });
   }
   // First endpoint
-  else if (req.url === "/endpoint1") {
+  else if (req.url === "/tracks") {
     handleEndpoint1(req, res);
   }
   // Second endpoint
