@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUSIC</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>DBOX MUSIC</h1>
+    <p>
+        <button id="loadBtn">Load Tracks</button>
+    </p>
+    <div id="status" aria-live="polite"></div>
+    <ul id="tracks" class="tracks" aria-live="polite"></ul>
+
+    <script>
+        const loadBtn = document.getElementById('loadBtn');
+        const status = document.getElementById('status');
+        const tracksEl = document.getElementById('tracks');
+
+        function showStatus(msg, isLoading = false) {
+            status.innerHTML = isLoading ? `<span class="spinner"></span>${msg}` : msg;
+        }
+
+        function escapeHtml(s) {
+            return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c]));
+        }
+
+        function renderTracks(list) {
+            tracksEl.innerHTML = '';
+            if (!list || list.length === 0) {
+                tracksEl.innerHTML = '<li class="small">No tracks returned.</li>';
+                return;
+            }
+            list.forEach(t => {
+                const li = document.createElement('li');
+                li.className = 'track';
+                const year = t.year || '—';
+                li.innerHTML = `
+                    <div class="meta">
+                        <div class="title">${escapeHtml(t.title)} — ${escapeHtml(t.artist)} - ${escapeHtml(t.genre)}</div>
+                        <div class="details">${escapeHtml(t.album)} <span class="small">(${escapeHtml(String(year))})</span></div>
+                    </div>
+                `;
+                tracksEl.appendChild(li);
+            });
+        }
+
+        async function loadTracks() {
+            showStatus('Loading…', true);
+            loadBtn.disabled = true;
+            try {
+                const res = await fetch('http://localhost:3000/tracks', { cache: 'no-store' });
+                if (!res.ok) throw new Error('Network response was not ok: ' + res.status);
+                const data = await res.json();
+                const list = Array.isArray(data) ? data : [data];
+                renderTracks(list);
+                showStatus(`Loaded ${list.length} track${list.length !== 1 ? 's' : ''}.`);
+            } catch (err) {
+                showStatus('Error: ' + (err.message || err));
+                tracksEl.innerHTML = '';
+            } finally {
+                loadBtn.disabled = false;
+            }
+        }
+
+        loadBtn.addEventListener('click', loadTracks);
+    </script>
+</body>
+</html>
