@@ -1,0 +1,23 @@
+{
+  "name": "nodedemoserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CrazyDee1/NodeDemoServer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CrazyDee1/NodeDemoServer/issues"
+  },
+  "homepage": "https://github.com/CrazyDee1/NodeDemoServer#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3"
+  }
+}

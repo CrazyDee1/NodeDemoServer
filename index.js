@@ -1,10 +1,12 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
-
+require("dotenv").config({ path: ".env.local"});
 const server = http.createServer((req, res) => {
   // CORS headers
-  res.setHeader("Access-Control-Allow-Origin", "http://dboxmusic.local");
+  const url = process.env.API_URL
+
+  res.setHeader("Access-Control-Allow-Origin", url);
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   if (req.method === "OPTIONS") {
