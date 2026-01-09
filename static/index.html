@@ -51,7 +51,7 @@
             showStatus('Loading…', true);
             loadBtn.disabled = true;
             try {
-                const res = await fetch('http://localhost:3000/tracks', { cache: 'no-store' });
+                const res = await fetch('http://localhost:3000/api/tracks', { cache: 'no-store' });
                 if (!res.ok) throw new Error('Network response was not ok: ' + res.status);
                 const data = await res.json();
                 const list = Array.isArray(data) ? data : [data];
