@@ -2,7 +2,8 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 require("dotenv").config({ path: ".env.local"});
-const server = http.createServer((req, res) => {
+const server = http.createServer(
+  (req, res) => {
   // CORS headers
   const url = process.env.API_URL
 
@@ -32,6 +33,11 @@ const server = http.createServer((req, res) => {
   else if (req.url === "/tracks") {
     handleEndpoint1(req, res);
   }
+
+   else if (req.url === "/api/tracks") {
+    handleEndpoint1(req, res);
+  }
+
   // Second endpoint
   else if (req.url === "/endpoint2") {
     handleEndpoint2(req, res);
@@ -46,6 +52,8 @@ const server = http.createServer((req, res) => {
 function handleEndpoint1(req, res) {
   const randomTracks = getRandomTracks(8);
   res.writeHead(200, { "Content-Type": "application/json" });
+  console.log(`Serving ${req.url} ${randomTracks.length} tracks`, randomTracks);
+  //.map(t => t.album.toUpperCase()).join(", ") 
   res.end(JSON.stringify(randomTracks));
 }
 
